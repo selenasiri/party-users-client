@@ -3,6 +3,7 @@ import './App.css'
 
 function App() {
   const [name, setName] = useState('')
+  const [users, setUsers] = useState([])
 
   const onSubmitForm = async (e) => {
     e.preventDefault()
@@ -11,6 +12,7 @@ function App() {
 
       const parseResponse = await response.json()
 
+      setUsers(parseResponse)
       console.log(parseResponse)
     } catch (err) {
       console.error(err.message)
@@ -31,6 +33,23 @@ function App() {
           />
           <button className='btn btn-success'>Submit</button>
         </form>
+        <table className='table my-5'>
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.user_id}>
+                <td>{user.first_name}</td>
+                <td>{user.last_name}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {users.length === 0 && <p>No Results Found</p>}
       </div>
     </Fragment>
   )
